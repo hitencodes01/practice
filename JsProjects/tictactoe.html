@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="overflow-hidden">
+    <div class="main flex flex-row justify-evenly ">
+        <!-- <div class="player1 h-[300px] w-[300px] rounded-lg shadow-lg bg-violet-900 my-20 gap-30"><div  class="text-3xl text-white text-bold text-center">Player 1 Scorecard</div><div class="pl1score"></div></div> -->
+        <div class="box-container flex flex-col items-center my-20">
+            <div class="f1 break-inside-avoid flex flex-row gap-2 mb-2 "></div>
+            <div class="f2 break-inside-avoid flex flex-row gap-2 mb-2"></div>
+            <div class="f3 break-inside-avoid flex flex-row gap-2 mb-2"></div>
+        </div>
+        <!-- <div class="player2 h-[300px] w-[300px] rounded-lg shadow-lg bg-violet-900 my-20"><div class="text-3xl text-white text-bold text-center">Player 2 Scorecard</div><div class="pl2score"></div></div> -->
+    </div>
+    <section class="section h-[200px] w-full bg-violet-900 flex flex-row justify-evenly fixed">
+        <div class="choice shadow-md rounded-lg h-[100px] w-[300px] bg-white my-auto flex flex-row justify-evenly"></div>
+    </section>
+</body>
+</html>
+<script>
+    let abc
+    let def
+    let newl1
+    let newl2 
+    let newl3
+    let template
+    let criteria
+    let pairs = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+    let person1 = []
+    let person2 = []
+    let cross = `<img width="70" height="70" src="https://img.icons8.com/ios/100/multiply-2.png" alt="multiply-2"/>`
+    let zero = `<img width="70" height="70" src="https://img.icons8.com/ios/100/1A1A1A/0-circle.png" alt="0-circle"/>`
+    let cross_red = `<img width="70" height="70" src="https://img.icons8.com/ios/100/FA5252/multiply-2.png" alt="multiply-2"/>`
+    let zero_red = `<img width="70" height="70" src="https://img.icons8.com/ios/100/FA5252/0-circle.png" alt="0-circle"/>`
+    let exist
+     function playagain(){
+        abc = undefined
+        def = undefined
+        person1 = []
+        person2 = []
+        document.getElementsByClassName("main")[0].innerHTML = `<div class="box-container flex flex-col items-center my-20">
+            <div class="f1 break-inside-avoid flex flex-row gap-2 mb-2 "></div>
+            <div class="f2 break-inside-avoid flex flex-row gap-2 mb-2"></div>
+            <div class="f3 break-inside-avoid flex flex-row gap-2 mb-2"></div>
+        </div>`
+        createboxes()
+     }
+
+    function createboxes(){
+        const l1 = [0,1,2]
+        const l2 = [3,4,5]
+        const l3 = [6,7,8]
+        newl1 = l1.map(item => `<button class="boxes bg-emerald-500 h-[100px] w-[100px] border-2 border-black rounded-lg shadow-lg" onclick="add(${item})"></button>`).join(" ")
+        newl2 = l2.map(item => `<button class="boxes bg-emerald-500 h-[100px] w-[100px] border-2 border-black rounded-lg shadow-lg" onclick="add(${item})"></button>`).join(" ")
+        newl3 = l3.map(item => `<button class="boxes bg-emerald-500 h-[100px] w-[100px] border-2 border-black rounded-lg shadow-lg" onclick="add(${item})"></button>`).join(" ")
+        document.getElementsByClassName("f1")[0].innerHTML = newl1
+        document.getElementsByClassName("f2")[0].innerHTML = newl2
+        document.getElementsByClassName("f3")[0].innerHTML = newl3
+        createbuttons()
+    }createboxes()
+   
+    function createbuttons(){
+        document.getElementsByClassName("choice")[0].innerHTML = `<button class="cross" onclick="fill(0)" >${cross_red}</button>
+        <button class="zero" onclick="fill(1)">${zero}</button>` 
+    }
+
+    let numbers = ["X","O"]
+    function computerGenerated(){
+        let num = Math.random() * (numbers.length)
+        return numbers[Math.floor(num)]
+    }
+
+    function fill(choice){
+        criteria = choice    
+        if (criteria == 0){
+            document.getElementsByClassName("cross")[0].innerHTML = cross
+            // document.getElementsByClassName("zero")[0].innerHTML = zero_red
+            template = `<img class="rounded-lg" width="100" height="100" src="https://img.icons8.com/ios/100/multiply-2.png" alt="multiply-2"/>`
+            console.log("zomato")
+        }
+        else if (criteria == 1){
+            document.getElementsByClassName("zero")[0].innerHTML = zero
+            // document.getElementsByClassName("cross")[0].innerHTML = cross_red
+            template = `<img class="rounded-lg" width="100" height="100" src="https://img.icons8.com/ios/100/1A1A1A/0-circle.png" alt="0-circle"/>`
+            console.log("swiggy")
+        }        
+    }
+    
+    function add(took){
+        console.log(took)
+
+        if (criteria == 0){
+            document.getElementsByClassName("zero")[0].innerHTML = zero_red
+            document.getElementsByClassName("boxes")[took].innerHTML = template
+            document.getElementsByClassName("cross")[0].innerHTML = cross
+            person1.push(took)
+            if (person1.length >= 3){
+                abc = pairs.some(arr => arr.every(ar => person1.includes(ar)))
+                console.log(abc)
+                check()
+            }
+        }
+        else if (criteria == 1){
+            document.getElementsByClassName("cross")[0].innerHTML = cross_red
+            document.getElementsByClassName("boxes")[took].innerHTML = template
+            document.getElementsByClassName("zero")[0].innerHTML = zero
+            person2.push(took)
+            if (person2.length >= 3){
+                def = pairs.some(arr => arr.every(ar => person2.includes(ar)))
+                console.log(def)
+                check()
+            }
+        }
+        // if (person1.length>=3 || person2.length>=3){
+        //     check()
+        // }
+    }
+    function check(){
+        if (abc == true){
+            document.getElementsByClassName("main")[0].innerHTML =  `<h1 class="text-5xl text-black text-bold text-center  my-[100px]">Player 1 wins</h1>`
+            document.getElementsByClassName("choice")[0].innerHTML = `<button  class="text-2xl" onclick="playagain()">Play Again</button>`
+
+        }
+        else if(def == true){
+            document.getElementsByClassName("main")[0].innerHTML =  `<h1 class="text-5xl text-black text-bold text-center my-[100px]">Player 2 wins</h1>`
+            document.getElementsByClassName("choice")[0].innerHTML = `<button class="text-2xl" onclick="playagain()">Play Again</button>`
+        }
+    }
+
+    
+</script>

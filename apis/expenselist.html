@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Calculator</title>
+</head>
+<body>
+    <div class="list"></div>
+</body>
+</html>
+<script>
+    // let list = [{name,amt}]
+
+    let divElement = document.createElement("div")
+    divElement.classList.add("inputDiv")
+    let firstInputElement = document.createElement("input")
+    firstInputElement.classList.add("inputExpenseName")
+    firstInputElement.placeholder = "enter expense name"
+    let secondInputElement = document.createElement("input")
+    secondInputElement.classList.add("inputExpenseAmount")
+    secondInputElement.placeholder = "enter amount"
+
+    let doneButton = document.createElement("button")
+    doneButton.classList.add("doneButton","m-10")
+    doneButton.setAttribute("onclick","createList()")
+
+    divElement.appendChild(firstInputElement);
+    divElement.appendChild(secondInputElement);
+    divElement.appendChild(doneButton)
+
+    let listElement = document.getElementsByClassName("list")[0];
+    listElement.prepend(divElement);   
+    
+
+    function createList(){
+        let title = document.getElementsByClassName("inputExpenseName")[0].value
+        let amount = parseInt(document.getElementsByClassName("inputExpenseAmount")[0].value)
+        console.log(title,amount)
+    }
+</script>

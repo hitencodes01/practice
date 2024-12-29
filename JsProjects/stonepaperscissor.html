@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stone Paper Scissor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col gap-0">
+    <header class="flex flex-row flex-wrap justify-evenly items-center h-[150px] bg-violet-900"><div class="text-7xl text-white font-extrabold">Stone Paper Scissor</div></header>
+    <div class="content flex flex-row flex-wrap h-[320px] gap-10 bg-amber-400  justify-center items-center "></div>
+    <footer class="scoreboard flex flex-row flex-wrap h-[200px] justify-center  bg-violet-900 gap-[10px]""> 
+        <div class="text-5xl text-white m-2 h-[150px] bg-transparent flex flex-col p-5 font-extrabold">You <label class="myscore text-center  mx-auto  "></label></div>
+        <div><img width="100" height="100" src="https://img.icons8.com/dotty/100/battle--v2.png" alt="battle--v2" class="m-10 text-white bg-white"/></div>
+        <div class="text-5xl text-white m-2 h-[150px]  flex flex-col p-5 font-extrabold">Computer<label class="computerscore text-center  mx-auto "></label></div>
+    </footer>
+</body>
+</html>
+<script> 
+    let abc = 1
+    let def = 2
+    let ghi = 3
+    let coumputer_wins = [["stone","scissors"],["paper","stone"],["scissors","paper"]]
+    let player_wins = [["scissors","stone"],["stone","paper"],["paper","scissors"]]
+    let winner = []
+    let count = 0
+    logicplate()
+ 
+    let myscore = 0
+    let computerscore = 0
+    function check(a){
+        winner = []
+        let player = a
+        let criteria = computerGenerated()
+        document.getElementsByClassName("myscore")[0].innerHTML =  player
+        document.getElementsByClassName("computerscore")[0].innerHTML =  criteria
+        // let by = checkwhatisit(a,criteria)
+        winner.push(criteria)
+        winner.push(player)
+        console.log(winner)
+        let win_for_computer = coumputer_wins.some(arr => 
+            arr.length === winner.length && 
+            arr.every((val, index) => val === winner[index]))
+            console.log(win_for_computer)
+        let win_for_player = player_wins.some(arr => 
+            arr.length === winner.length && 
+            arr.every((val, index) => val === winner[index]))
+            console.log(win_for_player)
+        if ( win_for_player == true){
+            myscore += 10
+            
+            document.getElementsByClassName("content")[0].innerHTML = `<div>You Wins</div>`
+            // console.log("harami ho  tum")   
+        }        
+        else if(win_for_computer == true){
+            computerscore += 10
+            
+            document.getElementsByClassName("content")[0].innerHTML = `<div>Computer Wins</div>`
+            // console.log("kyube")     
+        } 
+        // document.getElementsByClassName("myscore")[0].innerHTML =  ``
+        // document.getElementsByClassName("computerscore")[0].innerHTML =  ``
+        count = 0
+        logicplate()
+    }
+    
+    function logicplate(){    
+        let interval = setInterval(() => {
+            count += 1
+            if(count==1){
+                document.getElementsByClassName("content")[0].innerHTML = `<div class="first-card text-4xl text-red font-extrabold">Stone</div>`
+            }
+            else if(count==2){
+                document.getElementsByClassName("content")[0].innerHTML = `<div class="first-card  text-4xl text-blue font-extrabold">Paper</div>`
+            }
+            else if(count==3){
+                document.getElementsByClassName("content")[0].innerHTML = `<div class="first-card text-4xl text-blue font-extrabold">Scissors</div>`
+            }
+            else{
+            clearInterval(interval)
+            document.getElementsByClassName("content")[0].innerHTML = `<button class="first-card h-[200px] w-[200px] rounded-full shadow-lg  bg-white text-4xl text-blue font-extrabold" onclick="check('stone')">Stone</button><button  onclick="check('paper')" class="second-card h-[200px] w-[200px] rounded-full shadow-lg bg-white text-4xl text-blue font-extrabold">Paper</button><button onclick="check('scissors')" class="third-card h-[200px] w-[200px] rounded-full shadow-lg bg-white text-4xl text-blue font-extrabold">Scissors</button>`
+            }
+        }, 1000);
+             
+    }
+
+    let numbers = [1,2,3]
+    function computerGenerated(){
+        let num = Math.random() * (numbers.length)
+        let btc = numbers[Math.floor(num)]
+        if(btc==1){
+            return "stone"
+        }
+        else if(btc==2){
+            return "paper"
+        }
+        else if(btc==3){
+            return "scissors"
+        }
+    }
+
+    // function checkwhatisit(p,c){
+    //     if(p==1)
+    // }
+
+</script>
